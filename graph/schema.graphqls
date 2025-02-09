@@ -1,0 +1,38 @@
+type User {
+  id: ID!
+  name: String!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  author: User!
+  allowComments: Boolean!
+  createdAt: String!
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  post: Post!
+  author: User!
+  parent: Comment
+  content: String!
+  createdAt: String!
+}
+
+type Query {
+  posts: [Post!]! # Получить все посты
+  post(id: ID!): Post # Получить один пост с комментариями
+}
+
+type Mutation {
+  createPost(title: String!, content: String!, authorID: ID!): Post!
+  toggleAllowComments(postID: ID!): Post!
+  addComment(postID: ID!, authorID: ID!, parentID: ID, content: String!): Comment!
+}
+
+type Subscription {
+  newComment(postID: ID!): Comment!
+}
