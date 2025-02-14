@@ -2,15 +2,17 @@ package main
 
 import (
 	"log"
-	"post-system/graph"
 
+	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+
+	"post-system/graph"
 	"post-system/pkg/db"
 )
 
 func init() {
-	// Загрузка переменных окружения
+	// Загружаем переменные окружения
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Ошибка загрузки .env файла")
@@ -20,25 +22,20 @@ func init() {
 }
 
 func main() {
-	// Создаём сервер на Gin
 	r := gin.Default()
 
-	// Создаём GraphQL сервер
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	// Добавляем GraphQL эндпоинт
 
-	// GraphQL Playground (UI для тестов)
-	r.GET("/", func(c *gin.Context) {
-		playground.Handler("GraphQL Playground", "/query").ServeHTTP(c.Writer, c.Request)
-	})
+	// // GraphQL Playground для тестирования API
+	// r.GET("/", gin.WrapH(playground.Handler("GraphQL", "/query")))
 
-	// GraphQL API
-	r.POST("/query", func(c *gin.Context) {
-		srv.ServeHTTP(c.Writer, c.Request)
-	})
-
-	// Запуск сервера
-	log.Println("Server running on :8080")
-	if err := r.Run(":8080"); err != nil {
-		log.Fatal("Failed to start server:", err)
+	resolver := &graph.Resolver{
+		DB:            db.DB,
 	}
+
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))
+	r.POST("/query", gin.WrapH(srv))
+
+	log.Println("Сервер запущен на http://localhost:8080")
+	r.Run(":8080")
 }

@@ -4,7 +4,10 @@ import (
 	"gorm.io/gorm"
 )
 
-// Resolver - основная структура, которая хранит зависимости
+// This file will not be regenerated automatically.
+//
+// It serves as dependency injection for your app, add any dependencies you require here.
+
 type Resolver struct {
-	DB *gorm.DB // Здесь должно быть твое подключение к базе данных
+	DB *gorm.DB
 }

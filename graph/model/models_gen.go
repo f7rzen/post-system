@@ -3,12 +3,12 @@
 package model
 
 type Comment struct {
-	ID        string   `json:"id"`
-	Post      *Post    `json:"post"`
-	Author    *User    `json:"author"`
-	Parent    *Comment `json:"parent,omitempty"`
-	Content   string   `json:"content"`
-	CreatedAt string   `json:"createdAt"`
+	ID        string  `json:"id"`
+	PostID    string  `json:"postId"`
+	AuthorID  string  `json:"authorId"`
+	Content   string  `json:"content"`
+	ParentID  *string `json:"parentId,omitempty"`
+	CreatedAt string  `json:"createdAt"`
 }
 
 type Mutation struct {
@@ -27,10 +27,8 @@ type Post struct {
 type Query struct {
 }
 
-type Subscription struct {
-}
-
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	CreatedAt string `json:"createdAt"`
 }
