@@ -44,7 +44,8 @@ mutation {
 ##### Создание родительского комментария
 
 
-```mutation {
+```graphql
+mutation {
   createParentComment(postID: "5", authorID: "2", content: "Это родительский комментарий2!") {
     id
     content
@@ -55,7 +56,8 @@ mutation {
 ##### Создание дочернего комментария
 
 
-```mutation {
+```graphql
+mutation {
   createChildComment(postID: "5", authorID: "2", content: "Это ответ на комментарий!", parentID: "2") {
     id
     content
@@ -66,7 +68,8 @@ mutation {
 ##### Создание пользователя
 
 
-```mutation {
+```graphql
+mutation {
   createUser(name: "John Doe") {
     id
     name
@@ -77,7 +80,8 @@ mutation {
 ##### Получение поста по ID с комментариями
 
 
-```query {
+```graphql
+query {
   post(id: "5", limit: 10, offset: 0) {
     id
     title
@@ -98,7 +102,8 @@ mutation {
 ##### Отключение комментария
 
 
-```mutation {
+```graphql
+mutation {
   toggleAllowComments(postID: "5") {
     id
     title
@@ -109,7 +114,8 @@ mutation {
 ##### Получение всех постов с ограничением на количество
 
 
-```query {
+```graphql
+query {
   posts(limit: 5, offset: 0) {
     id
     title
